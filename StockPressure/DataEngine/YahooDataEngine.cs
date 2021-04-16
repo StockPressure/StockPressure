@@ -51,9 +51,8 @@ namespace StockPressure.DataEngine
                         return null;
                     }
 
-                    if (obj.defaultKeyStatistics.dateShortInterest.value.AddDays(15).Month != currentMonth ||
-                        (obj.defaultKeyStatistics.dateShortInterest.value.AddDays(15).Day  <= 15 && currentSection != "A") ||
-                        (obj.defaultKeyStatistics.dateShortInterest.value.AddDays(15).Day  >  15 && currentSection != "B") 
+                    if (obj.defaultKeyStatistics.dateShortInterest.value.AddDays(21).Month >= currentMonth &&
+                        (obj.defaultKeyStatistics.dateShortInterest.value.Day > 15 && currentSection != "A")
                        )
                     {
                         Console.WriteLine("We are beyond the date to retrieve that information from Yahoo.");

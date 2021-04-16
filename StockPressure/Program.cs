@@ -206,24 +206,30 @@ namespace StockPressure
 
             // I'll remove this chunk of expository once I know the calculations are correct and just let the numbers be the numbers.
             // ------------------------------------------------------------------------------------------------------------------------
-            Console.WriteLine($"You can find the link to this code at: https://github.com/jerryhanel/StockPressure/ Take a look at the thesis and " +
+            Console.WriteLine($"You can find the link to this code at: https://github.com/StockPressure/StockPressure/ Take a look at the thesis and " +
                 $"let me know if you can determine if this DD has somehow gone off the rails. " +
                 $"\r\n\r\n" +
                 $"***Keep an eye on the second column, Pressure #. That's the key factor here.***");
             Console.WriteLine("");
 
             // Create Markdown Table            
-            Console.Write("| Date       | Pressure # | +/- | Uncovered Volume (     %) |");
+            Console.Write("|            | Pres. | +/- | Uncovered             |");
             if (showVolumes)
             {
-                Console.Write(" Volume          | Short Volume    | Potential Short % |");
+                Console.Write("             | Short       | Short             | Potential  |");
+            }
+            Console.WriteLine("");
+            Console.Write("| Date       | Numb. | +/- | Volume (     %)       |");
+            if (showVolumes)
+            {
+                Console.Write(" Volume      | Volume      | Exempt            | Short %    |");
             }
             Console.WriteLine("");
 
-            Console.Write("|:----------:|-----------:|:---:|--------------------------:|");
+            Console.Write("|:----------:|------:|:---:|----------------------:|");
             if (showVolumes)
             {
-                Console.Write("----------------:|----------------:|------------------:|");
+                Console.Write("------------:|------------:|------------------:|-----------:|");
             }
             Console.WriteLine("");
 
@@ -284,12 +290,13 @@ namespace StockPressure
                         // At this point, the squeeze factor is just a number. It should not be mentally coupled with the squeeze percent since I don't
                         // know what that true number is. But what I DO know is that at this level the Hedge funds should be feeling quite a bit of 
                         // pressure, which could drive the price up. And that's what I am trying to find. Potential PRESSURE to facilitate a squeeze.
-                        Console.Write($"| {curr:yyyy-MM-dd} | {(squeezeFactor * 100m),10:0.0} |  {incdec}  | {unCoveredShorts,15:###,###,###,##0} (" +
+                        Console.Write($"| {curr:yyyy-MM-dd} | {(squeezeFactor * 100m),5:0.0} |  {incdec}  | {unCoveredShorts,11:###,###,###,##0} (" +
                                 $"{((decimal)unCoveredShorts / (decimal)initialFloat) * 100m,6:0.00}%) ");
                         if (showVolumes)
                         {
                             Console.Write($"| " +
-                                $"{data.TotalVolume,15:###,###,###,##0} | {data.ShortVolume,15:###,###,###,##0} | {shortPercent * 100,15:0.0000} % |");
+                                $"{data.TotalVolume,11:###,###,###,##0} | {data.ShortVolume,11:###,###,###,##0} | " +
+                                $"{data.ShortExempt,9:###,###,###,##0} ({((decimal)data.ShortExempt/(decimal)data.ShortVolume)*100m,5:0.00}%)| {shortPercent * 100,8:0.0000} % | ");
                         }
                         Console.WriteLine("");
                     }
