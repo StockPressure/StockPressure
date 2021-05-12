@@ -50,14 +50,6 @@ namespace StockPressure.DataEngine
                         Console.WriteLine($"Unable to pull [{symbol}] from Yahoo.");
                         return null;
                     }
-
-                    if (obj.defaultKeyStatistics.dateShortInterest.value.AddDays(21).Month >= currentMonth &&
-                        (obj.defaultKeyStatistics.dateShortInterest.value.Day > 15 && currentSection != "A")
-                       )
-                    {
-                        Console.WriteLine("We are beyond the date to retrieve that information from Yahoo.");
-                        return null;
-                    }
                 }
 
                 YFCache.Save(symbol, obj);

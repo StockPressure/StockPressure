@@ -201,7 +201,7 @@ namespace StockPressure
             Console.WriteLine($"Starting Date    : {startingDate:yyyy-MM-dd} ");
             Console.WriteLine($"Float            : ***{initialFloat:###,###,###,##0}***");
             Console.WriteLine($"Starting Short   : ***{initialShort:###,###,###,##0}***");
-            Console.WriteLine($"Starting Short % : ***{(initialShort / initialFloat) * 100m:0.0000}%*** of float."); ;
+            Console.WriteLine($"Starting Short % : ***{((decimal)initialShort / (decimal)initialFloat) * 100m:0.0000}%*** of float."); ;
             Console.WriteLine("");
 
             // I'll remove this chunk of expository once I know the calculations are correct and just let the numbers be the numbers.
@@ -213,23 +213,17 @@ namespace StockPressure
             Console.WriteLine("");
 
             // Create Markdown Table            
-            Console.Write("|            | Pres. | +/- | Uncovered             |");
+            Console.Write("| Date       | Pres# | +/- | Uncovered Volume (%)  |");
             if (showVolumes)
             {
-                Console.Write("             | Short       | Short             | Potential  |");
-            }
-            Console.WriteLine("");
-            Console.Write("| Date       | Numb. | +/- | Volume (     %)       |");
-            if (showVolumes)
-            {
-                Console.Write(" Volume      | Volume      | Exempt            | Short %    |");
+                Console.Write(" Volume      | Short Vol.  | Short Exempt      | Potential% | Potential Short");
             }
             Console.WriteLine("");
 
             Console.Write("|:----------:|------:|:---:|----------------------:|");
             if (showVolumes)
             {
-                Console.Write("------------:|------------:|------------------:|-----------:|");
+                Console.Write("------------:|------------:|------------------:|-----------:|----------------:|");
             }
             Console.WriteLine("");
 
@@ -296,7 +290,10 @@ namespace StockPressure
                         {
                             Console.Write($"| " +
                                 $"{data.TotalVolume,11:###,###,###,##0} | {data.ShortVolume,11:###,###,###,##0} | " +
-                                $"{data.ShortExempt,9:###,###,###,##0} ({((decimal)data.ShortExempt/(decimal)data.ShortVolume)*100m,5:0.00}%)| {shortPercent * 100,8:0.0000} % | ");
+                                $"{data.ShortExempt,9:###,###,###,##0} ({((decimal)data.ShortExempt/(decimal)data.ShortVolume)*100m,5:0.00}%) " +
+                                $"| {shortPercent * 100,8:0.0000}% " +
+                                $"| {cumulativeShort,11:###,###,###,##0} "
+                            );
                         }
                         Console.WriteLine("");
                     }
